@@ -1,0 +1,19 @@
+---
+run:
+  tests: false
+
+  skip-files:
+    - ".*_test.go$"
+
+linters:
+  enable-all: true
+  disable:
+    # it should improve to support more known patterns
+    - varnamelen
+    # why?
+    - tagliatelle
+    # deprecated linters
+    - maligned
+    - scopelint
+    - golint
+    - interfacer
