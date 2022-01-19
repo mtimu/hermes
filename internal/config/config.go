@@ -11,6 +11,7 @@ import (
 	"github.com/knadh/koanf/providers/env"
 	"github.com/knadh/koanf/providers/file"
 	"github.com/knadh/koanf/providers/structs"
+	"github.com/mehditeymorian/hermes/internal/db"
 	"github.com/mehditeymorian/hermes/internal/emq"
 	"github.com/tidwall/pretty"
 )
@@ -19,6 +20,7 @@ const PREFIX = "HERMES_"
 
 type Config struct {
 	Emq emq.Config `koanf:"emq"`
+	DB  db.Config  `koanf:"db"`
 }
 
 func Load(path string) Config {
