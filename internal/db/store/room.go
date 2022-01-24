@@ -19,30 +19,20 @@ type RoomCollection struct {
 	DB *mongo.Database
 }
 
-func (r RoomCollection) Create(c context.Context, room model.Room) (string, error) {
-	result, err := r.DB.Collection(roomCollection).InsertOne(c, room)
+func (r RoomCollection) Create(c context.Context, room model.Room) error {
+	_, err := r.DB.Collection(roomCollection).InsertOne(c, room)
 	if err != nil {
-		return "", fmt.Errorf("failed to insert room: %w", err)
+		return fmt.Errorf("failed to insert room: %w", err)
 	}
 
-	hexID, ok := result.InsertedID.(primitive.ObjectID)
-	if !ok {
-		return "", errCast
-	}
-
-	return hexID.Hex(), nil
+	return nil
 }
 
 func (r RoomCollection) Get(c context.Context, roomID string) (*model.Room, error) {
-	objectID, err := primitive.ObjectIDFromHex(roomID)
-	if err != nil {
-		return nil, fmt.Errorf("invalid roomID: %w", err)
-	}
-
-	filter := bson.D{{Key: "_id", Value: objectID}}
+	filter := bson.D{{Key: "id", Value: roomID}}
 	result := r.DB.Collection(roomCollection).FindOne(c, filter)
 
-	err = result.Err()
+	err := result.Err()
 	if err != nil {
 		return nil, fmt.Errorf("failed to get room: %w", err)
 	}
