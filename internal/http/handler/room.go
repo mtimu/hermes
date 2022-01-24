@@ -11,7 +11,7 @@ import (
 )
 
 type Room struct {
-	Logger zap.Logger
+	Logger *zap.Logger
 	Store  store.Store
 }
 
