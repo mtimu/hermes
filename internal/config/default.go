@@ -3,6 +3,7 @@ package config
 import (
 	"github.com/mehditeymorian/hermes/internal/db"
 	"github.com/mehditeymorian/hermes/internal/emq"
+	"github.com/mehditeymorian/hermes/internal/log"
 )
 
 func Default() Config {
@@ -14,6 +15,11 @@ func Default() Config {
 		DB: db.Config{
 			Name: "Hermes",
 			URI:  "http://localhost:27017",
+		},
+		Logger: log.Config{
+			Production: false,
+			Encoding:   "console",
+			Level:      "info",
 		},
 	}
 }
