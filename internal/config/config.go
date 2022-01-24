@@ -2,7 +2,7 @@ package config
 
 import (
 	"encoding/json"
-	"log"
+	"fmt"
 	"regexp"
 	"strings"
 
@@ -13,14 +13,17 @@ import (
 	"github.com/knadh/koanf/providers/structs"
 	"github.com/mehditeymorian/hermes/internal/db"
 	"github.com/mehditeymorian/hermes/internal/emq"
+	"github.com/mehditeymorian/hermes/internal/log"
 	"github.com/tidwall/pretty"
+	"go.uber.org/zap"
 )
 
 const PREFIX = "HERMES_"
 
 type Config struct {
-	Emq emq.Config `koanf:"emq"`
-	DB  db.Config  `koanf:"db"`
+	Emq    emq.Config `koanf:"emq"`
+	DB     db.Config  `koanf:"db"`
+	Logger log.Config `koanf:"logger"`
 }
 
 func Load(path string) Config {
@@ -30,12 +33,12 @@ func Load(path string) Config {
 
 	// load default configuration
 	if err := k.Load(structs.Provider(Default(), "koanf"), nil); err != nil {
-		log.Fatalf("error loading default config: %v", err)
+		zap.L().Fatal("error loading default config", zap.Error(err))
 	}
 
 	// load configuration from file
 	if err := k.Load(file.Provider(path), yaml.Parser()); err != nil {
-		log.Printf("error loading config.yaml: %v", err)
+		zap.L().Warn("error loading config.yaml", zap.Error(err))
 	}
 
 	// load environment variables
@@ -53,11 +56,11 @@ func Load(path string) Config {
 		return finalKey, value
 	}
 	if err := k.Load(env.ProviderWithValue(PREFIX, ".", cb), nil); err != nil {
-		log.Printf("error loading environment variables: %v", err)
+		zap.L().Warn("error loading environment variables", zap.Error(err))
 	}
 
 	if err := k.Unmarshal("", &cfg); err != nil {
-		log.Fatalf("error unmarshaling config: %v", err)
+		zap.L().Fatal("error unmarshalling config", zap.Error(err))
 	}
 
 	indent, _ := json.MarshalIndent(cfg, "", "\t")
@@ -67,7 +70,7 @@ func Load(path string) Config {
 	%s
 	======================================================
 	`
-	log.Printf(cfgStrTemplate, string(indent))
+	fmt.Printf(cfgStrTemplate, string(indent))
 
 	return cfg
 }
