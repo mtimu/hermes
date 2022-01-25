@@ -2,7 +2,7 @@ package config
 
 import (
 	"encoding/json"
-	"fmt"
+	logPkg "log"
 	"regexp"
 	"strings"
 
@@ -70,7 +70,7 @@ func Load(path string) Config {
 	%s
 	======================================================
 	`
-	fmt.Printf(cfgStrTemplate, string(indent))
+	logPkg.Printf(cfgStrTemplate, string(indent))
 
 	return cfg
 }

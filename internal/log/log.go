@@ -14,7 +14,7 @@ func New(cfg Config) *zap.Logger {
 	)
 }
 
-func getEncoder(cfg Config) zapcore.Encoder {
+func getEncoder(cfg Config) zapcore.Encoder { //nolint:ireturn
 	var encoderConfig zapcore.EncoderConfig
 	if cfg.Production {
 		encoderConfig = zap.NewProductionEncoderConfig()
@@ -36,7 +36,7 @@ func getEncoder(cfg Config) zapcore.Encoder {
 	return encoder
 }
 
-func getWriteSyncer() zapcore.WriteSyncer {
+func getWriteSyncer() zapcore.WriteSyncer { //nolint:ireturn
 	return zapcore.Lock(os.Stdout)
 }
 

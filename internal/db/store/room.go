@@ -2,7 +2,6 @@ package store
 
 import (
 	"context"
-	"errors"
 	"fmt"
 
 	"github.com/mehditeymorian/hermes/internal/model"
@@ -12,8 +11,6 @@ import (
 )
 
 const roomCollection = "room-collection"
-
-var errCast = errors.New("failed to cast id")
 
 type RoomCollection struct {
 	DB *mongo.Database

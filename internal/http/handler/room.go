@@ -62,7 +62,7 @@ func (r Room) create(ctx *fiber.Ctx) error {
 	if err != nil {
 		r.Logger.Error("failed to create room", zap.Error(err))
 
-		return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+		return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{ //nolint:wrapcheck
 			"message": "failed to create room",
 			"error":   err.Error(),
 		})

@@ -30,7 +30,7 @@ func GenerateID() string {
 	id := make([]rune, idLength)
 
 	for i := range id {
-		id[i] = letters[rand.Intn(len(letters))]
+		id[i] = letters[rand.Intn(len(letters))] //nolint:gosec
 	}
 
 	return string(id)
