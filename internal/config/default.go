@@ -10,7 +10,7 @@ func Default() Config {
 	return Config{
 		Emq: emq.Config{
 			ClientID: "test-client",
-			URL:      "tcp://localhost:18083",
+			URL:      "tcp://localhost:1883",
 		},
 		DB: db.Config{
 			Name: "Hermes",
