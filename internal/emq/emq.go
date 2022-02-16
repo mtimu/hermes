@@ -12,6 +12,9 @@ type Emq struct {
 }
 
 func Connect(cfg Config) mqtt.Client { //nolint:ireturn
+	// TODO: temporary solution
+	time.Sleep(5 * time.Second)
+
 	opts := mqtt.NewClientOptions().AddBroker(cfg.URL).SetClientID(cfg.ClientID)
 
 	// Set the message callback handler
@@ -21,7 +24,7 @@ func Connect(cfg Config) mqtt.Client { //nolint:ireturn
 	opts.SetDefaultPublishHandler(defaultHandler)
 
 	opts.SetKeepAlive(60 * time.Second) //nolint:gomnd
-	opts.SetPingTimeout(1 * time.Second)
+	opts.SetPingTimeout(10 * time.Second)
 
 	c := mqtt.NewClient(opts)
 	if token := c.Connect(); token.Wait() && token.Error() != nil {
