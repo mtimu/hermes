@@ -1,6 +1,7 @@
 package model
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 )
@@ -34,4 +35,12 @@ func GenerateID() string {
 	}
 
 	return string(id)
+}
+
+func GetRoomGeneralTopic(roomID string) string {
+	return fmt.Sprintf("/%s", roomID)
+}
+
+func GetRoomParticipantTopic(roomID, ParticipantID string) string {
+	return fmt.Sprintf("/%s/%s", roomID, ParticipantID)
 }
