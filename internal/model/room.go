@@ -41,6 +41,6 @@ func GetRoomGeneralTopic(roomID string) string {
 	return fmt.Sprintf("/%s", roomID)
 }
 
-func GetRoomParticipantTopic(roomID, ParticipantID string) string {
-	return fmt.Sprintf("/%s/%s", roomID, ParticipantID)
+func GetRoomParticipantTopic(roomID, participantID string) string {
+	return fmt.Sprintf("/%s/%s", roomID, participantID)
 }

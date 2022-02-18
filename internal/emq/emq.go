@@ -23,8 +23,8 @@ func Connect(cfg Config) mqtt.Client { //nolint:ireturn
 	}
 	opts.SetDefaultPublishHandler(defaultHandler)
 
-	opts.SetKeepAlive(60 * time.Second) //nolint:gomnd
-	opts.SetPingTimeout(10 * time.Second)
+	opts.SetKeepAlive(60 * time.Second)   //nolint:gomnd
+	opts.SetPingTimeout(10 * time.Second) //nolint:gomnd
 
 	c := mqtt.NewClient(opts)
 	if token := c.Connect(); token.Wait() && token.Error() != nil {
