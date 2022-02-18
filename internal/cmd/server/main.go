@@ -29,7 +29,7 @@ func run(cmd *cobra.Command, _ []string) {
 
 	emqClient := emq.Connect(cfg.Emq)
 
-	emqClient.Publish("test", 0, false, "Hello World")
+	emqx := emq.Emq{Client: emqClient}
 
 	dbClient, _ := mongo.Connect(cfg.DB)
 
@@ -42,6 +42,7 @@ func run(cmd *cobra.Command, _ []string) {
 	handler.Room{
 		Logger: logger,
 		Store:  dbStore,
+		Emq:    emqx,
 	}.Register(app)
 
 	zap.L().Fatal("failed to run app", zap.Error(app.Listen(":3000")))

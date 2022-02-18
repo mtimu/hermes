@@ -13,6 +13,7 @@ import (
 type Room struct {
 	Logger *zap.Logger
 	Store  store.Store
+	Emq    emq.Emq
 }
 
 func (r Room) Register(app *fiber.App) {
