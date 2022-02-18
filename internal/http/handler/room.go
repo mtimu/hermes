@@ -98,6 +98,12 @@ func (r Room) del(ctx *fiber.Ctx) error {
 		})
 	}
 
+	deleteEvent := emq.Event{
+		Type:    emq.RoomDeleted,
+		Payload: nil,
+	}
+	r.Emq.Publish(model.GetRoomGeneralTopic(roomID), deleteEvent)
+
 	r.Logger.Info("http.room.delete", zap.String("status", "ok"))
 
 	return ctx.SendStatus(http.StatusNoContent) //nolint:wrapcheck
