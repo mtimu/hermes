@@ -27,15 +27,21 @@ func run(cmd *cobra.Command, _ []string) {
 
 	cfg := config.Load(cfgFile)
 
+	logger := log.New(cfg.Logger)
+
+	undo := zap.ReplaceGlobals(logger)
+	defer undo()
+
 	emqClient := emq.Connect(cfg.Emq)
 
 	emqx := emq.Emq{Client: emqClient}
 
-	dbClient, _ := mongo.Connect(cfg.DB)
+	dbClient, err := mongo.Connect(cfg.DB)
+	if err != nil {
+		zap.L().Fatal("failed to connect to db", zap.Error(err))
+	}
 
 	dbStore := store.New(dbClient)
-
-	logger := log.New(cfg.Logger)
 
 	app := fiber.New()
 
