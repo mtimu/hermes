@@ -5,6 +5,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/mehditeymorian/hermes/internal/db/store"
+	"github.com/mehditeymorian/hermes/internal/emq"
 	"github.com/mehditeymorian/hermes/internal/http/request"
 	"github.com/mehditeymorian/hermes/internal/model"
 	"go.uber.org/zap"
@@ -68,6 +69,13 @@ func (r Room) create(ctx *fiber.Ctx) error {
 			"error":   err.Error(),
 		})
 	}
+
+	// publish a room creation event
+	createEvent := emq.Event{
+		Type:    emq.RoomCreated,
+		Payload: nil,
+	}
+	r.Emq.Publish(model.GetRoomGeneralTopic(room.ID), createEvent)
 
 	r.Logger.Info("http.room.create", zap.String("status", "ok"))
 
