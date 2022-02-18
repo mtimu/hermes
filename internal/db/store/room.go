@@ -25,6 +25,17 @@ func (r RoomCollection) Create(c context.Context, room model.Room) error {
 	return nil
 }
 
+func (r RoomCollection) Update(c context.Context, room model.Room) error {
+	filter := bson.D{{Key: "id", Value: room.ID}}
+
+	_, err := r.DB.Collection(roomCollection).UpdateOne(c, filter, room)
+	if err != nil {
+		return fmt.Errorf("failed to update room: %w", err)
+	}
+
+	return nil
+}
+
 func (r RoomCollection) Get(c context.Context, roomID string) (*model.Room, error) {
 	filter := bson.D{{Key: "id", Value: roomID}}
 	result := r.DB.Collection(roomCollection).FindOne(c, filter)
