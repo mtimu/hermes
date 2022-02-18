@@ -9,10 +9,11 @@ import (
 const idLength = 16
 
 type Room struct {
-	ID           string
-	HostID       string
-	LastActivity time.Time
-	CreatedAt    time.Time
+	ID              string
+	HostID          string
+	ParticipantsIDs []string
+	LastActivity    time.Time
+	CreatedAt       time.Time
 }
 
 func NewRoom(hostID string) *Room {
