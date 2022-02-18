@@ -26,4 +26,4 @@ EXPOSE 3000
 
 ENTRYPOINT ["./hermes"]
 
-CMD ["server"]
+CMD ["serve"]

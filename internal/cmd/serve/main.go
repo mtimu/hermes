@@ -1,4 +1,4 @@
-package server
+package serve
 
 import (
 	"github.com/gofiber/fiber/v2"
@@ -13,13 +13,13 @@ import (
 )
 
 func Command(cfgFile string) *cobra.Command {
-	serverCommand := &cobra.Command{ //nolint:exhaustivestruct
-		Use:   "server",
+	serveCommand := &cobra.Command{ //nolint:exhaustivestruct
+		Use:   "serve",
 		Short: "signaling server",
 		Run:   run,
 	}
 
-	return serverCommand
+	return serveCommand
 }
 
 func run(cmd *cobra.Command, _ []string) {

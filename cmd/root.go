@@ -17,7 +17,7 @@ limitations under the License.
 package cmd
 
 import (
-	"github.com/mehditeymorian/hermes/internal/cmd/server"
+	"github.com/mehditeymorian/hermes/internal/cmd/serve"
 	"github.com/spf13/cobra"
 )
 
@@ -36,7 +36,7 @@ func Execute() {
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "config.yaml", "config file (default is $HOME/.hermes.yaml)")
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 
-	rootCmd.AddCommand(server.Command(cfgFile))
+	rootCmd.AddCommand(serve.Command(cfgFile))
 
 	cobra.CheckErr(rootCmd.Execute())
 }
