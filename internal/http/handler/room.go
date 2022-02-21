@@ -23,6 +23,7 @@ func (r Room) Register(app *fiber.App) {
 	app.Post("/room", r.create)
 	app.Post("/room/:id", r.join)
 	app.Delete("/room/:id", r.del)
+	app.Post("/test", r.test)
 }
 
 // get room's info.
@@ -123,6 +124,14 @@ func (r Room) join(ctx *fiber.Ctx) error {
 		})
 	}
 
+	joinEvent := emq.Event{
+		Type:    emq.JoinRoom,
+		Payload: nil,
+	}
+	r.Emq.Publish(model.GetRoomGeneralTopic(roomID), joinEvent)
+
+	r.Logger.Info("http.room.join", zap.String("status", "ok"))
+
 	return ctx.SendStatus(http.StatusNoContent) //nolint:wrapcheck
 }
 
@@ -149,6 +158,12 @@ func (r Room) del(ctx *fiber.Ctx) error {
 	r.Emq.Publish(model.GetRoomGeneralTopic(roomID), deleteEvent)
 
 	r.Logger.Info("http.room.delete", zap.String("status", "ok"))
+
+	return ctx.SendStatus(http.StatusNoContent) //nolint:wrapcheck
+}
+
+func (r Room) test(ctx *fiber.Ctx) error {
+	r.Emq.Publish("test", "a test data")
 
 	return ctx.SendStatus(http.StatusNoContent) //nolint:wrapcheck
 }
