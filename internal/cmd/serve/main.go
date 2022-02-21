@@ -2,6 +2,7 @@ package serve
 
 import (
 	"github.com/gofiber/fiber/v2"
+	fiberLogger "github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/mehditeymorian/hermes/internal/config"
 	"github.com/mehditeymorian/hermes/internal/db/mongo"
 	"github.com/mehditeymorian/hermes/internal/db/store"
@@ -44,6 +45,8 @@ func run(cmd *cobra.Command, _ []string) {
 	dbStore := store.New(dbClient)
 
 	app := fiber.New()
+
+	app.Use(fiberLogger.New())
 
 	handler.Room{
 		Logger: logger,
