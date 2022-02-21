@@ -5,6 +5,7 @@ type EventType string
 const (
 	RoomCreated EventType = "room-created"
 	RoomDeleted EventType = "room-deleted"
+	JoinRoom    EventType = "join-room"
 )
 
 type Event struct {
