@@ -40,6 +40,6 @@ func (e Emq) Subscribe(topic string, callback mqtt.MessageHandler) {
 }
 
 func (e Emq) Publish(topic string, data interface{}) {
-	token := e.Client.Publish(topic, 0, false, data)
+	token := e.Client.Publish(topic, 1, false, data)
 	token.Wait()
 }
