@@ -35,7 +35,7 @@ func run(cmd *cobra.Command, _ []string) {
 
 	emqClient := emq.Connect(cfg.Emq)
 
-	emqx := emq.Emq{Client: emqClient}
+	emqx := emq.Emq{Client: emqClient, Logger: logger}
 
 	dbClient, err := mongo.Connect(cfg.DB)
 	if err != nil {

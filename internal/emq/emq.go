@@ -5,10 +5,12 @@ import (
 	"time"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
+	"go.uber.org/zap"
 )
 
 type Emq struct {
 	Client mqtt.Client
+	Logger *zap.Logger
 }
 
 func Connect(cfg Config) mqtt.Client { //nolint:ireturn
