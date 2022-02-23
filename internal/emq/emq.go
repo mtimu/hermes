@@ -1,6 +1,7 @@
 package emq
 
 import (
+	"encoding/json"
 	"log"
 	"time"
 
@@ -42,6 +43,15 @@ func (e Emq) Subscribe(topic string, callback mqtt.MessageHandler) {
 }
 
 func (e Emq) Publish(topic string, data interface{}) {
-	token := e.Client.Publish(topic, 1, false, data)
+	e.Logger.Info("publish event", zap.String("topic", topic))
+
+	bytes, err := json.Marshal(data)
+	if err != nil {
+		e.Logger.Error("failed to publish event", zap.Error(err))
+
+		return
+	}
+
+	token := e.Client.Publish(topic, 1, false, bytes)
 	token.Wait()
 }
