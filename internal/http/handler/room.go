@@ -85,7 +85,7 @@ func (r Room) create(ctx *fiber.Ctx) error {
 	return ctx.Status(http.StatusOK).JSON(room) //nolint:wrapcheck
 }
 
-// join a room
+// join a room.
 func (r Room) join(ctx *fiber.Ctx) error {
 	roomID := ctx.Params("id")
 
@@ -163,7 +163,7 @@ func (r Room) del(ctx *fiber.Ctx) error {
 }
 
 func (r Room) test(ctx *fiber.Ctx) error {
-	r.Emq.Publish("test", "a test data")
+	r.Emq.Publish("room/test", "a test data")
 
 	return ctx.SendStatus(http.StatusNoContent) //nolint:wrapcheck
 }

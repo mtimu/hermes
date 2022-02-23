@@ -11,6 +11,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
+const timeoutDelay = 10 * time.Second
+
 type Health struct {
 	DB  *mongo.Database
 	Emq mqtt.Client
@@ -21,26 +23,23 @@ func (h Health) Register(app *fiber.App) {
 }
 
 func (h Health) health(ctx *fiber.Ctx) error {
-
-	timeoutCtx, done := context.WithTimeout(ctx.Context(), 10*time.Second)
+	timeoutCtx, done := context.WithTimeout(ctx.Context(), timeoutDelay)
 	defer done()
 
 	err := h.DB.Client().Ping(timeoutCtx, readpref.Primary())
 	if err != nil {
-
-		return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+		return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{ //nolint:wrapcheck
 			"error":       err.Error(),
 			"description": "failed to ping database",
 		})
 	}
 
 	if !h.Emq.IsConnectionOpen() {
-
-		return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
+		return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{ //nolint:wrapcheck
 			"error":       "there is no active connection to mqtt broker",
 			"description": "the client is disconnected or reconnecting",
 		})
 	}
 
-	return ctx.SendStatus(http.StatusNoContent)
+	return ctx.SendStatus(http.StatusNoContent) //nolint:wrapcheck
 }

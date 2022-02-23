@@ -9,14 +9,15 @@ import (
 	"go.uber.org/zap"
 )
 
+const delayBeforeConnect = 5 * time.Second
+
 type Emq struct {
 	Client mqtt.Client
 	Logger *zap.Logger
 }
 
 func Connect(cfg Config) mqtt.Client { //nolint:ireturn
-	// TODO: temporary solution
-	time.Sleep(5 * time.Second)
+	time.Sleep(delayBeforeConnect)
 
 	opts := mqtt.NewClientOptions().AddBroker(cfg.URL).SetClientID(cfg.ClientID)
 
