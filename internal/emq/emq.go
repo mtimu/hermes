@@ -38,7 +38,7 @@ func Connect(cfg Config) mqtt.Client { //nolint:ireturn
 }
 
 func (e Emq) Subscribe(topic string, callback mqtt.MessageHandler) {
-	subscribe := e.Client.Subscribe(topic, 0, callback)
+	subscribe := e.Client.Subscribe(topic, 1, callback)
 	subscribe.Wait()
 }
 
