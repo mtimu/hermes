@@ -39,9 +39,9 @@ func GenerateID() string {
 }
 
 func GetRoomGeneralTopic(roomID string) string {
-	return fmt.Sprintf("/room/%s", roomID)
+	return fmt.Sprintf("room/%s", roomID)
 }
 
 func GetRoomParticipantTopic(roomID, participantID string) string {
-	return fmt.Sprintf("/room/%s/participant/%s", roomID, participantID)
+	return fmt.Sprintf("room/%s/participant/%s", roomID, participantID)
 }
