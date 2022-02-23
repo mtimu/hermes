@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Peer</title>
+</head>
+<body>
+
+</body>
+<script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+<script defer>
+    const clientId = 'mqttjs_' + Math.random().toString(16).substr(2, 8)
+
+    const host = 'ws://localhost:8083/mqtt'
+
+    const options = {
+        keepalive: 60,
+        clientId: clientId,
+        protocolId: 'MQTT',
+        protocolVersion: 4,
+        clean: true,
+        reconnectPeriod: 1000,
+        connectTimeout: 30 * 1000,
+        will: {
+            topic: 'WillMsg',
+            payload: 'Connection Closed abnormally..!',
+            // qos: 0,
+            retain: false
+        },
+    }
+
+    console.log('Connecting mqtt client')
+    const client = mqtt.connect(host, options)
+
+    client.on('error', (err) => {
+        console.log('Connection error: ', err)
+        client.end()
+    })
+
+    client.on('reconnect', () => {
+        console.log('Reconnecting...')
+    })
+
+    client.on('connect', function () {
+        console.log('Connected')
+        client.subscribe('test', function (err) {
+            if (!err) {
+                client.publish('test', 'Hello mqtt')
+            }
+        })
+
+        client.subscribe('room/#', {
+            qos: 1,
+
+        }, function (err) {
+            console.log('Subscribed to room')
+        })
+
+    })
+
+    client.on('reconnect', function () {
+        console.log('Reconnected')
+    })
+
+    client.on('disconnect', function () {
+        console.log('Disconnected')
+    })
+
+
+    client.on('onerror', function (err) {
+        console.log('Error:', err)
+    })
+
+
+
+    // Received
+    client.on('message', (topic, message, packet) => {
+        console.log('Received Message: ' + message.toString() + '\nOn topic: ' + topic)
+    })
+</script>
+
+</html>
