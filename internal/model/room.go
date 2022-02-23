@@ -18,10 +18,11 @@ type Room struct {
 
 func NewRoom(hostID string) *Room {
 	return &Room{
-		ID:           GenerateID(),
-		HostID:       hostID,
-		LastActivity: time.Now(),
-		CreatedAt:    time.Now(),
+		ID:              GenerateID(),
+		HostID:          hostID,
+		LastActivity:    time.Now(),
+		CreatedAt:       time.Now(),
+		ParticipantsIDs: make([]string, 0),
 	}
 }
 
