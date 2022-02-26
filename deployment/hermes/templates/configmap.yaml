@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "hermes.fullname" .}}-config
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ include "hermes.fullname" . }}
+    chart: {{ .Chart.Name }}
+    release: {{ .Release.Name }}
+data:
+  config.yaml: |
+    {{- toYaml  .Values.config | nindent 4}}
