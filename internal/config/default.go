@@ -10,11 +10,11 @@ func Default() Config {
 	return Config{
 		Emq: emq.Config{
 			ClientID: "test-client",
-			URL:      "tcp://localhost:1883",
+			URL:      "tcp://emq:1883",
 		},
 		DB: db.Config{
 			Name: "Hermes",
-			URI:  "http://localhost:27017",
+			URI:  "mongodb://mongo:27017",
 		},
 		Logger: log.Config{
 			Production: false,
