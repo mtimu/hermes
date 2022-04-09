@@ -9,3 +9,12 @@ Run command `make up` to run Hermes and dependencies locally. to kill the servic
 
 ## Deployment
 Deploy EMQX and MongoDB services and pass their configurations to hermes `values.yaml`. Use Helm to deploy Hermes's Chart. corresponding command is `make deploy`. and to bring down the Hermes run `make deployd`.
+
+## Other Useful Commands
+- `make croom`: create a test room
+- `make jroom`: join a user to a room. (pass room_id parameter)
+- `make image`: build image and push to registry
+
+
+## Warning
+Please update parameters in `Makefile` and configuration in `deployment/hermes/values.yaml` and `internal/config/default.go` for the project to run properly. If necessary, you can create a `config.yaml` file in root directory to pass configuration.
