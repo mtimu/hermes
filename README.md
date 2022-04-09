@@ -1,1 +1,2 @@
-# Hermes | WebRTC Signaling Server
+# Hermes
+Signaling server over EMQX for WebRTC
