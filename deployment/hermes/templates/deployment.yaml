@@ -43,7 +43,8 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-            - mountPath: /app/
+            - mountPath: /app/config.yaml
+              subPath: config.yaml
               name: {{ include "hermes.fullname" .}}-config-volume
       volumes:
         - name: {{ include "hermes.fullname" .}}-config-volume
